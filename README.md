@@ -21,11 +21,12 @@ a specific time for their final project.
 
 Implementation:
 The Gmail APIs allowed us to grant this program access to my email using 
-get_credential. Then, we could send an email using a method from https://developers.google.com/gmail/api/guides/sending. 
-After implelmenting the basic sending mechanism, we loop until the time the user entered (proper credit to Artsiom 
+get_credential. Then, we could send an email via a background process and using a method from https://developers.google.com/gmail/api/guides/sending. 
+After implementing the basic sending mechanism, we loop until the time the user entered (proper credit to Artsiom 
 Rudzenka of Stack Overflow), at which point we trigger the sending mechanism. 
 
 
 
 Future Improvements:
+
 In the future, we hope to implement scheduling for the following day. Will also allow a user to send multiple distint emails during the execution of the program.
