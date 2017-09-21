@@ -3,8 +3,8 @@ By Norah Borus and Nick Negrete
 
 
 Overview:
-Our program automates sending email for Gmail users, in particular for Nick. This script will 
-log into his email and send a message at a specified time. This is a console based program that 
+Our program automates sending email for Gmail users. This script will 
+log into your email and send a message at a specified time. This is a console based program that 
 takes in the recipient's email, the message body, the title, and the time the email should be 
 sent. The message body can be entered through the console or can be loaded from a text file. 
 The sending time must be entered in military time, e.g., 15:20 for 3:20 p.m. Currently, the 
@@ -25,6 +25,8 @@ get_credential. Then, we could send an email via a background process and using 
 After implementing the basic sending mechanism, we loop until the time the user entered (proper credit to Artsiom 
 Rudzenka of Stack Overflow), at which point we trigger the sending mechanism. 
 
+Instructions:
+You need to set up a project on the Google Developers Console and store the client secret of the project on your local machine, so as to give the program access to your Gmail account. See https://developers.google.com/gmail/api/quickstart/python for details.
 
 
 Future Improvements:
