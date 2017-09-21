@@ -1,28 +1,19 @@
 from __future__ import print_function
 from sys import argv
-from time import sleep
 import time
 import datetime
-import httplib2
-
 import httplib2
 import googleapiclient
 import os
 # Import smtplib for the actual sending function
-import smtplib
 import base64
 # Import the email modules we'll need
 from email.mime.text import MIMEText
 
 from apiclient import discovery
-from oauth2client import client
-from oauth2client import tools
 from oauth2client.file import Storage
-
-from threading import Thread
 from datetime import datetime, time
 from time import sleep
-from oauth2client.client import AccessTokenCredentials
 
 
 import subprocess
@@ -34,10 +25,9 @@ CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'sredmond'
 
 
-def create_message(sender, to, subject, message_text):
+def create_message(to, subject, message_text):
     message = MIMEText(message_text)
     message['to'] = to
-    message['from'] = sender
     message['subject'] = subject
     raw = base64.urlsafe_b64encode(bytes(message.as_string()))
     raw = raw.decode()
@@ -70,9 +60,9 @@ def set_up_message(title, body, recepient, send_time):
     credentials = retrieve_credentials()
     http = credentials.authorize(httplib2.Http())
     service = discovery.build('gmail', 'v1', http=http)
-    message = create_message("nnegrete01@gmail.com", recepient, title, body)
+    message = create_message(recepient, title, body)
     draft = send_message(service, 'me', message)
 
 if __name__ == '__main__':
-    send_time, title, body, recipient= argv[1], argv[2], argv[3], argv[4]
+    send_time, title, body, recipient = argv[1], argv[2], argv[3], argv[4]
     set_up_message(title, body, recipient, send_time)

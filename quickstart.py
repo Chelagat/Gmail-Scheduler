@@ -89,8 +89,7 @@ def get_body():
 if __name__ == '__main__':
     print("Welcome to our Gmail Script.")
     credentials = get_credentials()
-    print (type(credentials))
-    recipient = raw_input("Type in the recepient of the email: ")
+    recipient = raw_input("Please type in the recepient of the email: ")
     body = get_body()
     title = raw_input("Type in the title: ")
     send_time = raw_input("Input send time as military time (e.g. 15:20 for 3:20pm): ")
