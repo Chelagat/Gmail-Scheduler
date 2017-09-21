@@ -7,16 +7,19 @@ import smtplib
 import base64
 # Import the email modules we'll need
 from email.mime.text import MIMEText
-
+import sys
 from apiclient import discovery
 from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 
-
+from threading import Thread
 from datetime import datetime, time
 from time import sleep
+import pickle
 
+from ast import literal_eval
+import subprocess
 
 try:
     import argparse
@@ -30,6 +33,7 @@ SCOPES = 'https://mail.google.com/'
 CLIENT_SECRET_FILE = 'client_secret.json'
 APPLICATION_NAME = 'sredmond'
 
+from oauth2client.client import AccessTokenCredentials
 
 def get_credentials():
     home_dir = os.path.expanduser('~')
@@ -49,18 +53,7 @@ def get_credentials():
         else: # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
-    print ("Credentials: {}".format(credentials))
     return credentials
-
-def create_message(sender, to, subject, message_text):
-    message = MIMEText(message_text)
-    message['to'] = to
-    message['from'] = sender
-    message['subject'] = subject
-    raw = base64.urlsafe_b64encode(bytes(message.as_string()))
-    raw = raw.decode()
-    return {'raw': raw}
-
 
 def create_draft(service, user_id, message_body):
     try:
@@ -71,24 +64,6 @@ def create_draft(service, user_id, message_body):
     except googleapiclient.errors.HttpError as error:
         print ("An error occured", error)
         return None
-
-def send_message(service, user_id, message_body):
-    try:
-        #message = {'message': message_body}
-        message= service.users().messages().send(userId=user_id, body= message_body).execute()
-        return message
-    except googleapiclient.errors.HttpError as error:
-        print("An error occured, sredmond, ", error)
-
-
-def set_up(title, body, recepient):
-    credentials = get_credentials()
-    print("credential: ", credentials)
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build('gmail', 'v1', http=http)
-    message = create_message("nnegrete01@gmail.com", recepient, title, body)
-    draft = send_message(service, 'me', message)
-
 
 #proper credit for this method goes to Artsiom Rudzenka of Stack Overflow, 
 #who answered this on this thread:
@@ -113,11 +88,12 @@ def get_body():
 
 if __name__ == '__main__':
     print("Welcome to our Gmail Script.")
-    get_credentials()
-    recepient = raw_input("Type in the recepient of the email: ")
-    body  = get_body()
+    credentials = get_credentials()
+    print (type(credentials))
+    recipient = raw_input("Type in the recepient of the email: ")
+    body = get_body()
     title = raw_input("Type in the title: ")
     send_time = raw_input("Input send time as military time (e.g. 15:20 for 3:20pm): ")
+    p = subprocess.Popen(['python', 'set-up-service.py',send_time, title, body, recipient], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    print ("Email scheduled!")
 
-    wait_start(send_time)
-    set_up(title, body, recepient)
