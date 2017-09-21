@@ -49,6 +49,7 @@ def get_credentials():
         else: # Needed only for compatibility with Python 2.6
             credentials = tools.run(flow, store)
         print('Storing credentials to ' + credential_path)
+    print ("Credentials: {}".format(credentials))
     return credentials
 
 def create_message(sender, to, subject, message_text):
@@ -56,7 +57,7 @@ def create_message(sender, to, subject, message_text):
     message['to'] = to
     message['from'] = sender
     message['subject'] = subject
-    raw = base64.urlsafe_b64encode(bytes(message.as_string(), 'utf8'))
+    raw = base64.urlsafe_b64encode(bytes(message.as_string()))
     raw = raw.decode()
     return {'raw': raw}
 
@@ -98,13 +99,13 @@ def wait_start(send_time):
         sleep(1)
 
 def get_body():
-    read_from_file= input("Enter F to read body from a file or C to enter your message into the console: ").upper()
+    read_from_file= raw_input("Enter F to read body from a file or C to enter your message into the console: ").upper()
     while (not read_from_file) or read_from_file not in ['F', 'C']:
-        read_from_file= input("Enter F to read body from a file or C to enter your message into the console: ").upper()
+        read_from_file= raw_input("Enter F to read body from a file or C to enter your message into the console: ").upper()
     if read_from_file== 'C':
-        return input("Type your message: ")
+        return raw_input("Type your message: ")
     else:
-        file_path= input("What is the complete file path of the message? ")
+        file_path= raw_input("What is the complete file path of the message? ")
         message= None
         with open(file_path) as file:
             message= file.read()
@@ -112,10 +113,11 @@ def get_body():
 
 if __name__ == '__main__':
     print("Welcome to our Gmail Script.")
-    recepient = input("Type in the recepient of the email: ")
+    get_credentials()
+    recepient = raw_input("Type in the recepient of the email: ")
     body  = get_body()
-    title = input("Type in the title: ")
-    send_time = input("Input send time as military time (e.g. 15:20 for 3:20pm): ")
+    title = raw_input("Type in the title: ")
+    send_time = raw_input("Input send time as military time (e.g. 15:20 for 3:20pm): ")
 
     wait_start(send_time)
     set_up(title, body, recepient)
