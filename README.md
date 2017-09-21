@@ -28,6 +28,4 @@ Rudzenka of Stack Overflow), at which point we trigger the sending mechanism.
 
 
 Future Improvements:
-In the future, we hope to implement scheduling for the following day. We also hope to implementing multiprocessing to
-allow this to run as a background subprocess and to allow a user to send multiple distint emails during the execution 
-of the program.
+In the future, we hope to implement scheduling for the following day. Will also allow a user to send multiple distint emails during the execution of the program.
