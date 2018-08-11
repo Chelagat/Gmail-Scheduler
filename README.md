@@ -7,8 +7,8 @@ Our program automates sending email for Gmail users. This script will
 log into your email and send a message at a specified time. This is a console based program that 
 takes in the recipient's email, the message body, the title, and the time the email should be 
 sent. The message body can be entered through the console or can be loaded from a text file. 
-The sending time must be entered in military time, e.g., 15:20 for 3:20 p.m. Currently, the 
-program cannot be run as a background process. 
+The sending time must be entered in military time, e.g., 15:20 for 3:20 p.m. The 
+program is run as a background process, to free up your terminal tab for other shenanigans.
 
 
 Motivation:
